@@ -10,7 +10,7 @@ export function useVoiceDetection() {
         method: api.voiceDetection.detect.method,
         headers: { 
           'Content-Type': 'application/json',
-          'x-api-key': 'DEMO-KEY-123' // Mock key for frontend demo
+          'x-api-key': 'sk_test_123456789'
         },
         body: JSON.stringify(data),
       });
