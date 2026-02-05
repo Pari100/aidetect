@@ -4,11 +4,5 @@
   "installCommand": "npm install --legacy-peer-deps",
   "env": {
     "NODE_ENV": "production"
-  },
-  "functions": {
-    "api/index.cjs": {
-      "runtime": "nodejs18.x",
-      "maxDuration": 30
-    }
   }
 }

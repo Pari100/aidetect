@@ -15,7 +15,7 @@ async function build() {
       platform: 'node',
       target: 'node18',
       format: 'cjs',
-      outfile: join(__dirname, '../api/index.cjs'),
+      outfile: join(__dirname, '../dist/index.cjs'),
       external: [
         'better-sqlite3',
         'drizzle-orm',
