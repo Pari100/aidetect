@@ -82,7 +82,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  if (process.env.NODE_ENV === "production") {
+  const isProduction = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod";
+  
+  if (isProduction) {
     serveStatic(app);
   } else {
     const { setupVite } = await import("./vite");
