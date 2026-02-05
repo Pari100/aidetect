@@ -54,4 +54,7 @@ if (fs.existsSync(audioPath)) {
     console.error(`Problem with request: ${e.message}`);
   });
 
-  req.write(postData);
+  req.write(postData);  req.end();
+} else {
+  console.error(`Audio file not found: ${audioPath}`);
+}
