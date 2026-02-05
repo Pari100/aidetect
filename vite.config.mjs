@@ -26,6 +26,7 @@ export default defineConfig(async () => {
     root: path.join(process.cwd(), 'client'),
     build: {
       outDir: path.join(process.cwd(), 'dist/public'),
+      chunkSizeWarningLimit: 1000,
     },
     optimizeDeps: {
       exclude: ['lightningcss'],
