@@ -1,9 +1,10 @@
 // Vite config migrated to ESM for top-level await and import.meta support
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig(async () => {
-  const plugins = [];
+  const plugins = [react()];
   // Dynamic imports for plugins
   try {
     const cartographer = await import('@replit/vite-plugin-cartographer');
