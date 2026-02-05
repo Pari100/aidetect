@@ -56,3 +56,21 @@ export function useGenerateKey() {
     },
   });
 }
+
+// DELETE /api/admin/logs
+export function useDeleteLogs() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      const res = await fetch(api.admin.deleteLogs.path, {
+        method: api.admin.deleteLogs.method,
+      });
+      if (!res.ok) throw new Error('Failed to delete logs');
+      return res.json();
+    },
+    onSuccess: () => {
+      // Invalidate and refetch stats
+      queryClient.invalidateQueries({ queryKey: [api.admin.getStats.path] });
+    },
+  });
+}

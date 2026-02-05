@@ -1,17 +1,14 @@
 import { useState } from "react";
+import React from "react";
 import { useVoiceDetection, useAdminStats } from "@/hooks/use-voice-api";
 import { FileUpload } from "@/components/FileUpload";
 import { StatsCard } from "@/components/StatsCard";
 import { Layout } from "@/components/Layout";
 import { 
-  Mic, 
   Brain, 
   User, 
   Activity, 
-  CheckCircle2, 
-  AlertTriangle,
   Loader2,
-  Copy
 } from "lucide-react";
 import { 
   PieChart, 
@@ -121,8 +118,8 @@ export default function Home() {
             <div className="glass-panel rounded-2xl p-8 border border-white/5">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold flex items-center gap-2">
-                  <Mic className="w-5 h-5 text-primary" />
-                  Live Analysis
+                  <Brain className="w-5 h-5 text-primary" />
+                  Voice Analysis
                 </h2>
                 
                 <select 

@@ -1,0 +1,48 @@
+{
+  "projectId": "voice-authenticator",
+  "version": 2,
+  "framework": "other",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "functions": {
+    "server/index.ts": {
+      "runtime": "nodejs18.x",
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server/index.ts",
+      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "client/dist/index.html"
+    }
+  ],
+  "env": {
+    "PYTHON_EXE": {
+      "description": "Path to Python executable in virtual environment"
+    },
+    "VITE_API_URL": {
+      "description": "API endpoint URL for frontend (default: /api)"
+    },
+    "NODE_ENV": "production"
+  },
+  "envPrefix": "VOICE_",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "client/dist"
+      }
+    }
+  ]
+}

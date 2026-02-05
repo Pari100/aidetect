@@ -18,8 +18,8 @@ export function FileUpload({ onFileSelect, disabled }: FileUploadProps) {
       return;
     }
     
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      setError('File size must be less than 5MB');
+    if (file.size > 15 * 1024 * 1024) { // 15MB limit
+      setError('File size must be less than 15MB');
       return;
     }
 
@@ -30,8 +30,14 @@ export function FileUpload({ onFileSelect, disabled }: FileUploadProps) {
     reader.onloadend = () => {
       const base64String = reader.result as string;
       // Remove data url prefix (e.g. "data:audio/mp3;base64,")
-      const base64Content = base64String.split(',')[1];
-      onFileSelect(base64Content);
+      const base64Content = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+      if (base64Content) {
+        onFileSelect(base64Content);
+      } else {
+        setError('Failed to process file');
+      }
     };
     reader.readAsDataURL(file);
   }, [onFileSelect]);

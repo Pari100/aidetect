@@ -8,10 +8,11 @@ export interface IStorage {
   // API Keys
   getApiKey(key: string): Promise<ApiKey | undefined>;
   createApiKey(owner: string): Promise<ApiKey>;
-  
+
   // Logs
   logRequest(log: InsertRequestLog): Promise<RequestLog>;
   getRecentLogs(limit?: number): Promise<RequestLog[]>;
+  deleteLogs(): Promise<void>;
   getStats(): Promise<{
     totalRequests: number;
     aiDetected: number;
@@ -47,11 +48,15 @@ export class DatabaseStorage implements IStorage {
       .limit(limit);
   }
 
+  async deleteLogs(): Promise<void> {
+    await db.delete(requestLogs);
+  }
+
   async getStats() {
     const [total] = await db.select({ count: count() }).from(requestLogs);
     const [ai] = await db.select({ count: count() }).from(requestLogs).where(eq(requestLogs.classification, "AI_GENERATED"));
     const [human] = await db.select({ count: count() }).from(requestLogs).where(eq(requestLogs.classification, "HUMAN"));
-    
+
     return {
       totalRequests: Number(total?.count || 0),
       aiDetected: Number(ai?.count || 0),

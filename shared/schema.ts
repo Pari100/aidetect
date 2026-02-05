@@ -1,24 +1,25 @@
 
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb, real } from "drizzle-orm/pg-core";
+import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const apiKeys = pgTable("api_keys", {
-  id: serial("id").primaryKey(),
+export const apiKeys = sqliteTable("api_keys", {
+  id: integer("id", { mode: 'number' }).primaryKey({ autoIncrement: true }),
   key: text("key").notNull().unique(),
   owner: text("owner").notNull(),
-  isActive: boolean("is_active").default(true).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  isActive: integer("is_active", { mode: 'boolean' }).default(true).notNull(),
+  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
 });
 
-export const requestLogs = pgTable("request_logs", {
-  id: serial("id").primaryKey(),
-  apiKeyId: integer("api_key_id").references(() => apiKeys.id),
+export const requestLogs = sqliteTable("request_logs", {
+  id: integer("id", { mode: 'number' }).primaryKey({ autoIncrement: true }),
+  apiKeyId: integer("api_key_id", { mode: 'number' }).references(() => apiKeys.id),
   language: text("language").notNull(),
   classification: text("classification").notNull(), // AI_GENERATED or HUMAN
   confidenceScore: real("confidence_score").notNull(),
   explanation: text("explanation"),
-  timestamp: timestamp("timestamp").defaultNow().notNull(),
+  timestamp: text("timestamp").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
   clientIp: text("client_ip"),
 });
 
