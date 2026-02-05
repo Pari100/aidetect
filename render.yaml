@@ -2,6 +2,7 @@ services:
   - type: web
     name: voice-authenticator
     env: node
+    nodeVersion: 18.18.0
     plan: free
     buildCommand: npm install && pip install -r requirements.txt && npm run build
     startCommand: npm start
