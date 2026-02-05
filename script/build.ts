@@ -28,7 +28,7 @@ async function build() {
         'vite',
       ],
       sourcemap: true,
-      minify: true,
+      minify: false,
     });
 
     console.log('✓ Build completed successfully!');
