@@ -8,6 +8,7 @@ export interface IStorage {
   // API Keys
   getApiKey(key: string): Promise<ApiKey | undefined>;
   createApiKey(owner: string): Promise<ApiKey>;
+  createDemoApiKey(key: string): Promise<ApiKey>;
 
   // Logs
   logRequest(log: InsertRequestLog): Promise<RequestLog>;
@@ -31,6 +32,15 @@ export class DatabaseStorage implements IStorage {
     const [apiKey] = await db.insert(apiKeys).values({
       key,
       owner,
+      isActive: true,
+    }).returning();
+    return apiKey;
+  }
+
+  async createDemoApiKey(key: string): Promise<ApiKey> {
+    const [apiKey] = await db.insert(apiKeys).values({
+      key,
+      owner: "Demo",
       isActive: true,
     }).returning();
     return apiKey;

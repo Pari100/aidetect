@@ -3,6 +3,7 @@ import express from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer, type Server as HttpServer } from "http";
+import { storage } from "./storage";
 import "dotenv/config";
 
 
@@ -64,6 +65,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 (async () => {
+  // Initialize demo API key for testing
+  const demoKey = await storage.getApiKey("DEMO-KEY-123");
+  if (!demoKey) {
+    await storage.createDemoApiKey("DEMO-KEY-123");
+    log("✓ Demo API key initialized: DEMO-KEY-123");
+  }
+
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
